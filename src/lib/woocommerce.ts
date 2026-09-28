@@ -55,6 +55,18 @@ function get(endpoint: string, params: Record<string, unknown> = {}) {
     await acquire();
     try {
       return await client.get(endpoint, params);
+    } catch (error) {
+      // Callers fall back to empty lists, so log here or failures are invisible.
+      // Never log the request config: it contains the API credentials.
+      const e = error as {
+        code?: string;
+        message?: string;
+        response?: { status?: number; data?: { code?: string; message?: string } };
+      };
+      console.error(
+        `[woocommerce] GET ${endpoint} failed: status=${e.response?.status ?? "-"} code=${e.response?.data?.code ?? e.code ?? "-"} message=${e.response?.data?.message ?? e.message ?? "-"}`
+      );
+      throw error;
     } finally {
       release();
       inFlight.delete(key);
