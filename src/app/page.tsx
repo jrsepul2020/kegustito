@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Flame, Heart, Lock, Package, Sparkles, Truck } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
+import { UniverseBanners } from "@/components/universe-banners";
 import { getOnSaleProducts, getProducts } from "@/lib/products";
 import {
   getTopLevelCategoriesWithImages,
@@ -297,6 +298,8 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      <UniverseBanners />
 
       {/* Categorías principales — cuadros con foto */}
       {categories.length > 0 && (
