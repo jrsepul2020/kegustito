@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const universes = [
@@ -6,21 +7,25 @@ const universes = [
     title: "Ellas",
     subtitle: "Para ella",
     image: "/imagenes/ellas.jpg",
+    href: "/tienda?categoria=women",
   },
   {
     title: "Ellos",
     subtitle: "Para él",
     image: "/imagenes/ellos.jpg",
+    href: "/tienda?categoria=men",
   },
   {
     title: "Dos mujeres",
     subtitle: "Para ellas",
     image: "/imagenes/dos-mujeres.jpg",
+    href: undefined,
   },
   {
     title: "Dos hombres",
     subtitle: "Para ellos",
     image: "/imagenes/dos-hombres.jpg",
+    href: undefined,
   },
 ] as const;
 
@@ -28,15 +33,10 @@ function UniverseBanner({
   title,
   subtitle,
   image,
+  href,
 }: (typeof universes)[number]) {
-  return (
-    <article
-      className={cn(
-        "group relative flex min-h-[420px] flex-1 flex-col justify-end overflow-hidden rounded-sm",
-        "border border-[#c9a962]/70 bg-brand-ink shadow-[inset_0_0_0_1px_rgba(201,169,98,0.15)]",
-        "sm:min-h-[480px] lg:min-h-[560px]"
-      )}
-    >
+  const content = (
+    <>
       <Image
         src={image}
         alt=""
@@ -55,15 +55,29 @@ function UniverseBanner({
           {title}
         </h3>
         <p className="mt-2 text-base font-medium text-white/90 sm:text-lg">{subtitle}</p>
-        <button
-          type="button"
-          className="mt-6 min-h-11 border border-[#c9a962] bg-transparent px-8 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-[#c9a962]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c9a962]"
-        >
+        <span className="mt-6 inline-flex min-h-11 items-center border border-[#c9a962] bg-transparent px-8 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors group-hover:bg-[#c9a962]/15">
           Ver colección
-        </button>
+        </span>
       </div>
-    </article>
+    </>
   );
+
+  const className = cn(
+    "group relative flex min-h-[420px] flex-1 flex-col justify-end overflow-hidden rounded-sm",
+    "border border-[#c9a962]/70 bg-brand-ink shadow-[inset_0_0_0_1px_rgba(201,169,98,0.15)]",
+    "sm:min-h-[480px] lg:min-h-[560px]",
+    href && "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c9a962]"
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={className} aria-label={`${title}: ver colección`}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <article className={className}>{content}</article>;
 }
 
 export function UniverseBanners() {

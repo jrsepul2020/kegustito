@@ -14,10 +14,11 @@ export function buildCheckoutUrl(target: "checkout" | "cart" = "checkout") {
     qty: item.quantity,
   }));
 
-  const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_CHECKOUT_URL?.replace(
-    /\/checkout\/?$/,
-    ""
-  );
+  const checkoutUrl = process.env.NEXT_PUBLIC_WORDPRESS_CHECKOUT_URL;
+  const wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
+  const baseUrl = (checkoutUrl ?? wordpressUrl ?? "https://kegustito.com")
+    .replace(/\/checkout\/?$/, "")
+    .replace(/\/$/, "");
 
   const encoded = base64UrlEncode(JSON.stringify(items));
   const redirectParam = target === "cart" ? "&redirect_to=cart" : "";

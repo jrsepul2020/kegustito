@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import {
   Sheet,
   SheetContent,
@@ -124,12 +123,12 @@ export function CartSheet() {
               <span>Total</span>
               <span>{formatPrice(totalPrice)}</span>
             </div>
-            <Link
+            <a
               href={buildCheckoutUrl("checkout")}
               className={buttonVariants({ className: "w-full", size: "lg" })}
             >
               Finalizar compra
-            </Link>
+            </a>
           </SheetFooter>
         )}
       </SheetContent>
